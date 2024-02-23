@@ -5,7 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: RunSnyk to check for vulnerabilities
+      
+      # Add step to install Maven
+      - name: Install Maven
+        run: sudo apt-get install maven -y
+
+      - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/gradle-jdk17@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
