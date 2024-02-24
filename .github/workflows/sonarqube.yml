@@ -1,0 +1,21 @@
+name: Run SonarQube with Maven
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkouts@v2
+      - name: Set up JDK 11
+        uses: action/setup-javav@v2
+        with:
+         java-version: '11'
+         distribution: 'temurin'
+         cache: maven
+      - name: Build with Maven cloud
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=gabrielehima_java-reachability-playground -Dsonar.organization=gabrielehima -Dsonar.host.url=https://sonarcloud.io/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on SonarQube, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
+ 
